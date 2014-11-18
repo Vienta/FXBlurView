@@ -1,5 +1,5 @@
 {
-  "name": "FXBlurView",
+  "name": "FXBlurViewConvertToARGB8888",
   "version": "2.0.0",
   "license": "zlib",
   "summary": "Fork FXBlurView, converts non-ARGB8888 images into ARGB8888",
