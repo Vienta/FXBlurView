@@ -1,6 +1,6 @@
 {
   "name": "FXBlurViewConvertToARGB8888",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "license": "zlib",
   "summary": "Fork FXBlurView, converts non-ARGB8888 images into ARGB8888",
   "authors": {
@@ -8,7 +8,7 @@
   },
   "source": {
     "git": "https://github.com/Vienta/FXBlurView.git",
-    "tag": "2.0.0"
+    "tag": "2.0.1"
   },
   "homepage": "https://github.com/Vienta/FXBlurView",
   "platforms": {
