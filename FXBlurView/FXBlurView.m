@@ -61,8 +61,8 @@
     size_t pixelsHigh = CGImageGetHeight(inImage);
     // Declare the number of bytes per row. Each pixel in the bitmap in this
     // example is represented by 4 bytes; 8 bits each of red, green, blue, and alpha.
-    int bitmapBytesPerRow = (pixelsWide * 4);
-    int bitmapByteCount = (bitmapBytesPerRow * pixelsHigh);
+    size_t bitmapBytesPerRow = (pixelsWide * 4);
+    size_t bitmapByteCount = (bitmapBytesPerRow * pixelsHigh);
     // Use the generic RGB color space.
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     if (colorSpace == NULL) {
