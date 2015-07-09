@@ -61,8 +61,8 @@
     size_t pixelsHigh = CGImageGetHeight(inImage);
     // Declare the number of bytes per row. Each pixel in the bitmap in this
     // example is represented by 4 bytes; 8 bits each of red, green, blue, and alpha.
-    int bitmapBytesPerRow = (pixelsWide * 4);
-    int bitmapByteCount = (bitmapBytesPerRow * pixelsHigh);
+    size_t bitmapBytesPerRow = (pixelsWide * 4);
+    size_t bitmapByteCount = (bitmapBytesPerRow * pixelsHigh);
     // Use the generic RGB color space.
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     if (colorSpace == NULL) {
@@ -87,7 +87,7 @@
                                                  8,      // bits per component
                                                  bitmapBytesPerRow,
                                                  colorSpace,
-                                                 (CGBitmapInfo) kCGImageAlphaPremultipliedFirst);
+                                                 (CGBitmapInfo) kCGImageAlphaPremultipliedLast);
     if (context == NULL) {
         free(bitmapData);
         NSLog(@"Context not created!");
@@ -132,8 +132,15 @@
     buffer2.data = malloc(bytes);
     
     //create temp buffer
-    void *tempBuffer = malloc((size_t)vImageBoxConvolve_ARGB8888(&buffer1, &buffer2, NULL, 0, 0, boxSize, boxSize,
-                                                                 NULL, kvImageEdgeExtend + kvImageGetTempBufferSize));
+    void *tempBuffer = malloc((size_t)vImageBoxConvolve_ARGB8888(&buffer1,
+                                                                 &buffer2,
+                                                                 NULL,
+                                                                 0,
+                                                                 0,
+                                                                 boxSize,
+                                                                 boxSize,
+                                                                 NULL,
+                                                                 kvImageEdgeExtend + kvImageGetTempBufferSize));
     
     //copy image data
     CFDataRef dataSource = CGDataProviderCopyData(CGImageGetDataProvider(imageRef));
@@ -156,9 +163,13 @@
     free(tempBuffer);
     
     //create image context from buffer
-    CGContextRef ctx = CGBitmapContextCreate(buffer1.data, buffer1.width, buffer1.height,
-                                             8, buffer1.rowBytes, CGImageGetColorSpace(imageRef),
-                                             CGImageGetBitmapInfo(imageRef));
+    CGContextRef ctx = CGBitmapContextCreate(buffer1.data,
+                                             buffer1.width,
+                                             buffer1.height,
+                                             8,
+                                             buffer1.rowBytes,
+                                             CGImageGetColorSpace(imageRef),
+                                             (CGBitmapInfo) kCGImageAlphaPremultipliedLast);
     
     //apply tint
     if (tintColor && CGColorGetAlpha(tintColor.CGColor) > 0.0f)
@@ -329,7 +340,7 @@
                 }
             }
         }
-
+        
         //try again, delaying until the time when the next view needs an update.
         self.viewIndex = 0;
         [self performSelector:@selector(updateAsynchronously)
@@ -546,7 +557,7 @@
         {
             CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:key];
             animation.fromValue = [layer.presentationLayer valueForKey:key];
-    
+            
             //CAMediatiming attributes
             animation.beginTime = action.beginTime;
             animation.duration = action.duration;
