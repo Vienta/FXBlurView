@@ -49,9 +49,14 @@
 @implementation UIImage (FXBlurView)
 
 - (BOOL)isARGB8888:(CGImageRef)imageRef {
+	CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(imageRef);
+	    BOOL isAlphaOnFirstPlace = ( kCGImageAlphaPremultipliedFirst == alphaInfo || kCGImageAlphaFirst == alphaInfo
+	                        || kCGImageAlphaNoneSkipFirst == alphaInfo || kCGImageAlphaNoneSkipLast == alphaInfo);
+	
     return (CGImageGetBitsPerPixel(imageRef) == 32
             && CGImageGetBitsPerComponent(imageRef) == 8
-            && (CGImageGetBitmapInfo(imageRef) & kCGBitmapAlphaInfoMask));
+            && (CGImageGetBitmapInfo(imageRef) & kCGBitmapAlphaInfoMask)
+			&& isAlphaOnFirstPlace);
 }
 
 
